@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <title>Lista de Perros</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Lista de Perros</h1>
+
+      <div class="mb-3">
+        <label for="temperament-filter">Filtrar por Temperamento:</label>
+        <select id="temperament-filter" class="form-control">
+          <option value="">Todos</option>
+          <!-- Opciones de temperamento se agregarán aquí -->
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="breed-group-filter">Filtrar por Grupo de Raza:</label>
+        <select id="breed-group-filter" class="form-control">
+          <option value="">Todos</option>
+          <!-- Opciones de grupo de raza se agregarán aquí -->
+        </select>
+      </div>
+
+      <div id="dog-list" class="row">
+        <!-- La lista de perros se cargará aquí -->
+      </div>
+    </div>
+
+    <script src="./index.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
