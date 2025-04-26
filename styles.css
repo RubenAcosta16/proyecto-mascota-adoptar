@@ -1,0 +1,60 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+  }
+  
+  /* Hero */
+  .hero {
+    background: url('https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    height: 80vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    transition: right 0.3s;
+    z-index: 1050;
+  }
+  .sidebar.active {
+    right: 0;
+  }
+  
+  /* Cards */
+  .card {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    border: none;
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Imagenes */
+  .card-img-top {
+    height: 250px;
+    object-fit: cover;
+  }
+  
+  /* Modal */
+  .modal-header {
+    background-color: #f8f9fa;
+  }
+  
+  /* Dark Mode automático */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    .navbar, .sidebar, .modal-content {
+      background-color: #1f1f1f;
+    }
+  }
+   
