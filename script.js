@@ -2,6 +2,8 @@ let especie = 'dog';
 let breeds = [];
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
+let historalAdopcion = JSON.parse(localStorage.getItem('historalAdopcion')) || [];
+
 const breedSelect = document.getElementById('breed-select');
 const breedList = document.getElementById('breed-list');
 const sidebar = document.getElementById('sidebar');
@@ -17,6 +19,13 @@ document.getElementById('open-cart').onclick = () => sidebar.classList.add('acti
 document.getElementById('close-cart').onclick = () => sidebar.classList.remove('active');
 document.getElementById('clear-cart').onclick = () => {
   carrito = [];
+  actualizarCarrito();
+};
+document.getElementById('adopt-cart').onclick = () => {
+  historalAdopcion.push(...carrito);
+  localStorage.setItem('historalAdopcion', JSON.stringify(historalAdopcion));
+  carrito = [];
+
   actualizarCarrito();
 };
 
@@ -78,7 +87,7 @@ async function mostrarBreedCards() {
         imageUrl = 'https://via.placeholder.com/300x250?text=Error+Imagen';
       }
     }
-// codigo targeta de la raza
+    // codigo targeta de la raza
     breedList.innerHTML += `
       <div class="col-md-4 mb-4">
         <div class="card">
