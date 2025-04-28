@@ -78,7 +78,7 @@ async function mostrarBreedCards() {
         imageUrl = 'https://via.placeholder.com/300x250?text=Error+Imagen';
       }
     }
-
+// codigo targeta de la raza
     breedList.innerHTML += `
       <div class="col-md-4 mb-4">
         <div class="card">
@@ -107,6 +107,8 @@ function agregarAlCarrito(mascota) {
   actualizarCarrito();
 }
 
+
+// cosas del carrito
 function actualizarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
   cartItems.innerHTML = '';
