@@ -85,7 +85,8 @@ async function mostrarBreedCards() {
           <img src="${imageUrl}" class="card-img-top" alt="${breed.name}">
           <div class="card-body">
             <h5 class="card-title">${breed.name}</h5>
-            <p class="card-text">${breed.temperament || 'Sin descripción disponible.'}</p>
+            <p class="card-text">Temperamento: ${breed.temperament || 'Sin descripción disponible.'}</p>
+            <p class ="card-text">Tipo de raza: ${breed.breed_group || 'Sin tipo disponible.'}</p>
             <button class="btn btn-primary w-100" onclick="adoptarMascota('${breed.name}', '${imageUrl}')">Adoptar</button>
           </div>
         </div>
