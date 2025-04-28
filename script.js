@@ -118,7 +118,7 @@ function agregarAlCarrito(mascota) {
 }
 
 
-// cosas del carrito
+// cosas del carritofunction actualizarCarrito()
 function actualizarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
   cartItems.innerHTML = '';
@@ -131,6 +131,8 @@ function actualizarCarrito() {
         <li class="list-group-item d-flex align-items-center">
           <img src="${item.imagen}" alt="${item.nombre}" style="width:50px; height:50px; object-fit:cover; margin-right:10px;">
           <div>${item.nombre}</div>
+          <button class="btn btn-danger btn-sm ms-auto" onclick="eliminarDelCarrito('${item.nombre}')">Eliminar</button>
+
         </li>
       `;
     });
@@ -138,6 +140,11 @@ function actualizarCarrito() {
   cartCount.textContent = carrito.length;
 }
 
+
+function eliminarDelCarrito(nombre) {
+  carrito = carrito.filter(item => item.nombre !== nombre);
+  actualizarCarrito();
+}
 // Inicial
 cargarEspecie('dog');
 actualizarCarrito();
