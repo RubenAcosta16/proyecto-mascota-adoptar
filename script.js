@@ -24,7 +24,7 @@ class Dog extends Pet {
           <h5 class="card-title">${this.name}</h5>
           <p class="card-text">Temperamento: ${this.temperament || 'Sin descripción disponible.'}</p>
           <p class ="card-text">Tipo de raza: ${this.breed_group || 'Sin tipo disponible.'}</p>
-          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar</button>
+          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar <i class="bi bi-bag-plus"></i></button>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@ class Cat extends Pet {
           <p class="card-text">Temperamento: ${this.temperament || 'Sin descripción disponible.'}</p>
           <p class ="card-text">Tipo de raza: ${this.breed_group || 'Sin tipo disponible.'}</p>
           <p class ="card-text">Nivel de amigable con niños: ${this.child_friendly || 'Sin tipo disponible.'}</p>
-          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar</button>
+          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar <i class="bi bi-bag-plus"></i></button>
         </div>
       </div>
     </div>
@@ -183,7 +183,7 @@ function actualizarCarrito() {
         <li class="list-group-item d-flex align-items-center">
           <img src="${item.imagen}" alt="${item.nombre}" style="width:50px; height:50px; object-fit:cover; margin-right:10px;">
           <div>${item.nombre}</div>
-          <button class="btn btn-danger btn-sm ms-auto" onclick="eliminarDelCarrito('${item.nombre}')">Eliminar</button>
+          <button class="btn btn-danger btn-sm ms-auto " onclick="eliminarDelCarrito('${item.nombre}')">Eliminar <i class="bi bi-trash"></i></button>
 
         </li>
       `;
