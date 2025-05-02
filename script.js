@@ -1,3 +1,61 @@
+
+class Pet {
+  constructor(imageUrl, name, temperament, breed_group) {
+    this.imageUrl = imageUrl;
+    this.name = name;
+    this.temperament = temperament;
+    this.breed_group = breed_group;
+  }
+
+  print() { }
+}
+
+class Dog extends Pet {
+  constructor(imageUrl, name, temperament, breed_group) {
+    super(imageUrl, name, temperament, breed_group);
+  }
+
+  print() {
+    return `
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="${this.imageUrl}" class="card-img-top" alt="${this.name}">
+        <div class="card-body">
+          <h5 class="card-title">${this.name}</h5>
+          <p class="card-text">Temperamento: ${this.temperament || 'Sin descripción disponible.'}</p>
+          <p class ="card-text">Tipo de raza: ${this.breed_group || 'Sin tipo disponible.'}</p>
+          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+}
+
+class Cat extends Pet {
+  constructor(imageUrl, name, temperament, breed_group, child_friendly) {
+    super(imageUrl, name, temperament, breed_group);
+    this.child_friendly = child_friendly;
+  }
+
+  print() {
+    return `
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="${this.imageUrl}" class="card-img-top" alt="${this.name}">
+        <div class="card-body">
+          <h5 class="card-title">${this.name}</h5>
+          <p class="card-text">Temperamento: ${this.temperament || 'Sin descripción disponible.'}</p>
+          <p class ="card-text">Tipo de raza: ${this.breed_group || 'Sin tipo disponible.'}</p>
+          <p class ="card-text">Nivel de amigable con niños: ${this.child_friendly || 'Sin tipo disponible.'}</p>
+          <button class="btn btn-primary w-100" onclick="adoptarMascota('${this.name}', '${this.imageUrl}')">Adoptar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+}
+
 let especie = 'dog';
 let breeds = [];
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -89,24 +147,13 @@ async function mostrarBreedCards() {
         imageUrl = 'https://via.placeholder.com/300x250?text=Error+Imagen';
       }
     }
+
+    const pet = especie === 'dog' ? new Dog(imageUrl, breed.name, breed.temperament, breed.breed_group) : new Cat(imageUrl, breed.name, breed.temperament, breed.breed_group, breed.child_friendly);
+
     // codigo targeta de la raza
-    breedList.innerHTML += `
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="${imageUrl}" class="card-img-top" alt="${breed.name}">
-          <div class="card-body">
-            <h5 class="card-title">${breed.name}</h5>
-            <p class="card-text">Temperamento: ${breed.temperament || 'Sin descripción disponible.'}</p>
-            <p class ="card-text">Tipo de raza: ${breed.breed_group || 'Sin tipo disponible.'}</p>
-            <p class ="card-text">Nivel de amigable con niños: ${breed.child_friendly || 'Sin tipo disponible.'}</p>
-            <button class="btn btn-primary w-100" onclick="adoptarMascota('${breed.name}', '${imageUrl}')">Adoptar</button>
-          </div>
-        </div>
-      </div>
-    `;
+    breedList.innerHTML += pet.print()
   }
 }
-
 
 function adoptarMascota(nombre, imagen) {
   mascotaSeleccionada = { nombre, imagen };
@@ -122,7 +169,6 @@ function agregarAlCarrito(mascota) {
   carrito.push(mascota);
   actualizarCarrito();
 }
-
 
 // cosas del carritofunction actualizarCarrito()
 function actualizarCarrito() {
@@ -146,7 +192,6 @@ function actualizarCarrito() {
   cartCount.textContent = carrito.length;
 }
 
-
 function eliminarDelCarrito(nombre) {
   carrito = carrito.filter(item => item.nombre !== nombre);
   actualizarCarrito();
@@ -154,7 +199,6 @@ function eliminarDelCarrito(nombre) {
 // Inicial
 cargarEspecie('dog');
 actualizarCarrito();
-
 
 // aqui muestgra las mascotas adoptadas
 function cargarHistorialAdopciones() {
