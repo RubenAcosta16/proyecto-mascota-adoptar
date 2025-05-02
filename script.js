@@ -27,6 +27,8 @@ document.getElementById('adopt-cart').onclick = () => {
   carrito = [];
 
   actualizarCarrito();
+  cargarHistorialAdopciones();
+
 };
 
 // Modal adopción
@@ -111,6 +113,9 @@ function adoptarMascota(nombre, imagen) {
   document.getElementById('adopt-pet-name').textContent = nombre;
   const modal = new bootstrap.Modal(document.getElementById('adopt-modal'));
   modal.show();
+
+  cargarHistorialAdopciones();
+
 }
 
 function agregarAlCarrito(mascota) {
@@ -149,3 +154,26 @@ function eliminarDelCarrito(nombre) {
 // Inicial
 cargarEspecie('dog');
 actualizarCarrito();
+
+
+// aqui muestgra las mascotas adoptadas
+function cargarHistorialAdopciones() {
+  const historyList = document.getElementById('history-list');
+  historyList.innerHTML = '';
+
+  if (historalAdopcion.length === 0) {
+    historyList.innerHTML = '<li class="list-group-item text-center">No hay adopciones registradas 🐾</li>';
+  } else {
+    historalAdopcion.forEach(item => {
+      historyList.innerHTML += `
+        <li class="list-group-item d-flex align-items-center">
+          <img src="${item.imagen}" alt="${item.nombre}" style="width:50px; height:50px; object-fit:cover; margin-right:10px;">
+          <div>${item.nombre}</div>
+        </li>
+      `;
+    });
+  }
+}
+
+// Llama a la función al cargar la página
+cargarHistorialAdopciones();
