@@ -1,4 +1,3 @@
-
 class Pet {
   constructor(imageUrl, name, temperament, breed_group) {
     this.imageUrl = imageUrl;
@@ -59,7 +58,6 @@ class Cat extends Pet {
 let especie = 'dog';
 let breeds = [];
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
 let historalAdopcion = JSON.parse(localStorage.getItem('historalAdopcion')) || [];
 
 const breedSelect = document.getElementById('breed-select');
@@ -70,7 +68,6 @@ const cartItems = document.getElementById('cart-items');
 const confirmAdoptBtn = document.getElementById('confirm-adopt');
 let mascotaSeleccionada = null;
 
-// Botones
 document.getElementById('dog-btn').onclick = () => cargarEspecie('dog');
 document.getElementById('cat-btn').onclick = () => cargarEspecie('cat');
 document.getElementById('open-cart').onclick = () => sidebar.classList.add('active');
@@ -79,24 +76,22 @@ document.getElementById('clear-cart').onclick = () => {
   carrito = [];
   actualizarCarrito();
 };
+
 document.getElementById('adopt-cart').onclick = () => {
-  historalAdopcion.push(...carrito, ...{estrellas: 0});
+  carrito.map(mascota => mascota.estrellas = 0);
+  historalAdopcion.push(...carrito);
   localStorage.setItem('historalAdopcion', JSON.stringify(historalAdopcion));
   carrito = [];
-
   actualizarCarrito();
   cargarHistorialAdopciones();
-
 };
 
-// Modal adopción
 confirmAdoptBtn.onclick = () => {
   agregarAlCarrito(mascotaSeleccionada);
   const modal = bootstrap.Modal.getInstance(document.getElementById('adopt-modal'));
   modal.hide();
 };
 
-// Cargar razas
 function cargarEspecie(tipo) {
   especie = tipo;
   const url = tipo === 'dog' ? 'https://api.thedogapi.com/v1/breeds' : 'https://api.thecatapi.com/v1/breeds';
@@ -115,7 +110,6 @@ function llenarSelect() {
   breeds.forEach(breed => {
     breedSelect.innerHTML += `<option value="${breed.id}">${breed.name}</option>`;
   });
-
   breedSelect.onchange = mostrarBreedCards;
 }
 
@@ -128,7 +122,6 @@ async function mostrarBreedCards() {
   for (const breed of lista) {
     let imageUrl = breed.image?.url;
 
-    // Si no tiene imagen, buscar manualmente
     if (!imageUrl) {
       const apiUrl = especie === 'dog'
         ? `https://api.thedogapi.com/v1/images/search?breed_id=${breed.id}`
@@ -137,32 +130,26 @@ async function mostrarBreedCards() {
       try {
         const res = await fetch(apiUrl);
         const data = await res.json();
-        if (data.length > 0) {
-          imageUrl = data[0].url;
-        } else {
-          imageUrl = 'https://via.placeholder.com/300x250?text=Sin+Imagen';
-        }
-      } catch (error) {
-        console.error(error);
+        imageUrl = data[0]?.url || 'https://via.placeholder.com/300x250?text=Sin+Imagen';
+      } catch {
         imageUrl = 'https://via.placeholder.com/300x250?text=Error+Imagen';
       }
     }
 
-    const pet = especie === 'dog' ? new Dog(imageUrl, breed.name, breed.temperament, breed.breed_group) : new Cat(imageUrl, breed.name, breed.temperament, breed.breed_group, breed.child_friendly);
+    const pet = especie === 'dog'
+      ? new Dog(imageUrl, breed.name, breed.temperament, breed.breed_group)
+      : new Cat(imageUrl, breed.name, breed.temperament, breed.breed_group, breed.child_friendly);
 
-    // codigo targeta de la raza
-    breedList.innerHTML += pet.print()
+    breedList.innerHTML += pet.print();
   }
 }
 
 function adoptarMascota(nombre, imagen) {
-  mascotaSeleccionada = { nombre, imagen };
+  mascotaSeleccionada = { nombre, imagen, estrellas: 0 };
   document.getElementById('adopt-pet-name').textContent = nombre;
   const modal = new bootstrap.Modal(document.getElementById('adopt-modal'));
   modal.show();
-
   cargarHistorialAdopciones();
-
 }
 
 function agregarAlCarrito(mascota) {
@@ -170,7 +157,6 @@ function agregarAlCarrito(mascota) {
   actualizarCarrito();
 }
 
-// cosas del carritofunction actualizarCarrito()
 function actualizarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
   cartItems.innerHTML = '';
@@ -183,8 +169,7 @@ function actualizarCarrito() {
         <li class="list-group-item d-flex align-items-center">
           <img src="${item.imagen}" alt="${item.nombre}" style="width:50px; height:50px; object-fit:cover; margin-right:10px;">
           <div>${item.nombre}</div>
-          <button class="btn btn-danger btn-sm ms-auto " onclick="eliminarDelCarrito('${item.nombre}')">Eliminar <i class="bi bi-trash"></i></button>
-
+          <button class="btn btn-danger btn-sm ms-auto" onclick="eliminarDelCarrito('${item.nombre}')">Eliminar <i class="bi bi-trash"></i></button>
         </li>
       `;
     });
@@ -196,11 +181,7 @@ function eliminarDelCarrito(nombre) {
   carrito = carrito.filter(item => item.nombre !== nombre);
   actualizarCarrito();
 }
-// Inicial
-cargarEspecie('dog');
-actualizarCarrito();
 
-// aqui muestgra las mascotas adoptadas
 function cargarHistorialAdopciones() {
   const historyList = document.getElementById('history-list');
   historyList.innerHTML = '';
@@ -209,44 +190,52 @@ function cargarHistorialAdopciones() {
     historyList.innerHTML = '<li class="list-group-item text-center">No hay adopciones registradas 🐾</li>';
   } else {
     historalAdopcion.forEach(item => {
+      let estrellasTexto = '';
+      for (let i = 1; i <= item.estrellas; i++) {
+        estrellasTexto += '⭐';
+      }
+
       historyList.innerHTML += `
         <li class="list-group-item d-flex align-items-center">
           <img src="${item.imagen}" alt="${item.nombre}" style="width:50px; height:50px; object-fit:cover; margin-right:10px;">
-          <div>${item.nombre}</div>
+          <div class="me-auto">${item.nombre}</div>
+          <div class="me-2">${estrellasTexto}</div>
+          <button class="btn btn-primary" onClick="cambiarMascotaSelect('${item.nombre}')">Seleccionar</button>
         </li>
       `;
     });
   }
 }
 
-// Llama a la función al cargar la página
-cargarHistorialAdopciones();
-
 function guardarEstrellas(numEstrellas, nomMascota) {
-  // Obtener la lista del historial desde localStorage
   let historial = JSON.parse(localStorage.getItem('historalAdopcion')) || [];
-
-  // Buscar la mascota por nombre
   const mascotaIndex = historial.findIndex(mascota => mascota.nombre === nomMascota);
 
   if (mascotaIndex !== -1) {
-    // Actualizar estrellas en la mascota encontrada
     historial[mascotaIndex].estrellas = numEstrellas;
-
-    // Guardar la lista actualizada en localStorage
     localStorage.setItem('historalAdopcion', JSON.stringify(historial));
   } else {
     console.warn(`Mascota "${nomMascota}" no encontrada en el historial.`);
   }
 }
 
+let mascotaSeleccionadaResena = "";
 
- document.getElementById('btnResena').onclick = () => filtroPuntuacion()
+document.getElementById('btnResena').onclick = () => filtroPuntuacion();
 
+function cambiarMascotaSelect(mascota) {
+  alert("Mascota seleccionada")
+  mascotaSeleccionadaResena = mascota;
+  console.log(`Mascota seleccionada para reseña: ${mascotaSeleccionadaResena}`);
+}
 
 function filtroPuntuacion() {
   let filtro = document.getElementById("puntuacion").value;
-
-  console.log(filtro)
-  guardarEstrellas(filtro, "") 
+  guardarEstrellas(filtro, mascotaSeleccionadaResena);
+  historalAdopcion = JSON.parse(localStorage.getItem('historalAdopcion')) || [];
+  cargarHistorialAdopciones();
 }
+
+cargarEspecie('dog');
+actualizarCarrito();
+cargarHistorialAdopciones();
