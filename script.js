@@ -22,7 +22,7 @@ document.getElementById('clear-cart').onclick = () => {
   actualizarCarrito();
 };
 document.getElementById('adopt-cart').onclick = () => {
-  historalAdopcion.push(...carrito);
+  historalAdopcion.push(...carrito, ...{estrellas: 0});
   localStorage.setItem('historalAdopcion', JSON.stringify(historalAdopcion));
   carrito = [];
 
@@ -177,3 +177,32 @@ function cargarHistorialAdopciones() {
 
 // Llama a la función al cargar la página
 cargarHistorialAdopciones();
+
+function guardarEstrellas(numEstrellas, nomMascota) {
+  // Obtener la lista del historial desde localStorage
+  let historial = JSON.parse(localStorage.getItem('historalAdopcion')) || [];
+
+  // Buscar la mascota por nombre
+  const mascotaIndex = historial.findIndex(mascota => mascota.nombre === nomMascota);
+
+  if (mascotaIndex !== -1) {
+    // Actualizar estrellas en la mascota encontrada
+    historial[mascotaIndex].estrellas = numEstrellas;
+
+    // Guardar la lista actualizada en localStorage
+    localStorage.setItem('historalAdopcion', JSON.stringify(historial));
+  } else {
+    console.warn(`Mascota "${nomMascota}" no encontrada en el historial.`);
+  }
+}
+
+
+ document.getElementById('btnResena').onclick = () => filtroPuntuacion()
+
+
+function filtroPuntuacion() {
+  let filtro = document.getElementById("puntuacion").value;
+
+  console.log(filtro)
+  guardarEstrellas(filtro, "") 
+}
