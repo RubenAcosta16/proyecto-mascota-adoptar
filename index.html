@@ -37,7 +37,7 @@
 </div>
 
 <!-- Hero principal -->
-<header class="hero d-flex align-items-center justify-content-center text-center">
+<header class="hero d-flex align-items-center justify-content-center text-center ">
   <div>
     <h1 class="display-4 text-white">Encuentra tu nuevo mejor amigo</h1>
     <p class="lead text-white-50">Perros y gatos buscando hogar</p>
@@ -63,6 +63,26 @@
     </div>
   </div>
 </section>
+
+<!-- filtro -->
+<section id="filtro-mascotas" class="container my-5">
+  <div class="row">
+    <div class="col-md-4">
+      <select id="filtro-propiedad" class="form-select" onchange="cargarValoresFiltro()">
+        
+      </select>
+    </div>
+    <div class="col-md-4">
+      <select id="filtro-valor" class="form-select">
+        <option value="" disabled selected>Selecciona un valor</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-primary w-100" onclick="aplicarFiltro()">Aplicar Filtro</button>
+    </div>
+  </div>
+</section>
+
 
 <!-- Cards de razas -->
 <section class="container my-5">
@@ -98,11 +118,11 @@
     <div class="mb-3">
       <label for="puntuacion" class="form-label">Puntuación</label>
       <select class="form-select" id="puntuacion" required>
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★☆</option>
-        <option value="3">★★★☆☆</option>
-        <option value="2">★★☆☆☆</option>
-        <option value="1">★☆☆☆☆</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐☆</option>
+        <option value="3">⭐⭐⭐☆☆</option>
+        <option value="2">⭐⭐☆☆☆</option>
+        <option value="1">⭐☆☆☆☆</option>
       </select>
     </div>
 
@@ -110,6 +130,18 @@
     id="btnResena"
     >Enviar puntuación</button>
 </section>
+
+<!-- Toast de notificación -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast-notification" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
